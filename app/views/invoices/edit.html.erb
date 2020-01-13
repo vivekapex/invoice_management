@@ -1,27 +1,116 @@
-<h1>Editing Invoice</h1>
+<div class="row">
+  <div class="col-sm-12 mt-5">
+    <!-- back -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="mb-3">
+          <%= link_to @invoice, class: 'btn btn-sm btn-outline-secondary rounded-0' do %>
+            <i class="fas fa-arrow-left"></i>
+            <span class="ml-1">Back</span>
+          <%- end -%>
+        </div>
+      </div>
+    </div>
+    <!-- back button -->
 
-<%= simple_form_for(@invoice) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <!-- form content -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card rounded-0 mb-5">
+          <div class="card-header bg-info text-white">Update Invoice</div>
+          <div class="card-body">
+            <%= simple_form_for @invoice, html: { class: 'my-3' } do |f| %>
+              <%= f.error_notification %>
+              <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+              <%= f.input :internal_id, as: :hidden %>
 
-  <div class="form-inputs">
-    <%= f.input :internal_id %>
-    <%= f.input :external_id %>
-    <%= f.input :disbursement_date %>
-    <%= f.input :due_date %>
-    <%= f.input :description %>
-    <%= f.input :counterparty_type %>
-    <%= f.input :is_digitized %>
-    <%= f.input :gross_amount %>
-    <%= f.input :tax_rate %>
-    <%= f.input :tax %>
-    <%= f.input :status %>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :external_id, label: 'External id', class: 'form-control' %>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :status, label: 'Status', collection: Invoice.statuses.map { |k, v| [k.titleize, k] }, input_html: { class: 'form-control' }  %>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :counterparty_type, label: 'Counterparty type', collection: Invoice.counterparty_types.map { |k, v| [k.titleize, k] }, input_html: { class: 'form-control' }  %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :is_digitized, label: 'Is Digitized', collection: [ ['Yes', true], ['No', false] ], input_html: { class: 'form-control' }  %>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :disbursement_date, label: 'Disbursement date', class: 'form-control' %>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :due_date, label: 'Due date', class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- line items container -->
+              <hr>
+              <!-- add line item button container -->
+              <div class="row">
+                <div class="col-sm-12 mt-2">
+                  <%= link_to add_line_item_invoices_path, class: 'btn btn-primary btn-sm', title: 'Add line item', remote: true do %>
+                    <span class="mr-1">Add line item</span>
+                    <i class="far fa-plus-square"></i>
+                  <%- end -%>
+                </div>
+              </div>
+              <!-- add line item button container -->
+
+              <!-- added line items container -->
+              <div class="row">
+                <div class="col-sm-12 mt-2" id="addLineItemsArea">
+                  <%= f.simple_fields_for :line_items, @invoice.line_items.order(:created_at) do |ff| %>
+                    <%= render 'invoice_line_item_row', ff: ff, invoice: @invoice %>
+                  <%- end -%>
+                </div>
+              </div>
+              <!-- added line items container -->
+              <hr>
+              <!-- line items container -->
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :tax_rate, label: 'Tax rate', class: 'form-control' %>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :gross_amount, label: 'Gross amount', class: 'form-control' %>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <%= f.input :tax, label: 'Tax', class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <%= f.input :description, label: 'Description', class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-12 text-center">
+                    <%= f.button :submit, class: 'btn btn-outline-success rounded-0' %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form content -->
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
-<% end %>
-
-<%= link_to 'Show', @invoice %> |
-<%= link_to 'Back', invoices_path %>
+</div>

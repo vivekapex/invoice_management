@@ -61,6 +61,15 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def add_line_item
+    @invoice = Invoice.find_by(id: params[:id]) || Invoice.new
+    @line_item = @invoice.line_items.build
+
+    respond_to do |format|
+      format.js { render layout: false }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
