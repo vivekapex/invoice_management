@@ -1,5 +1,6 @@
 class LandingsController < ApplicationController
   def index
+    session[:usertype] = nil
   end
 
   def usertype_auth
