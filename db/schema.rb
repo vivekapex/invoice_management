@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_13_162302) do
+ActiveRecord::Schema.define(version: 2020_01_13_164915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,40 @@ ActiveRecord::Schema.define(version: 2020_01_13_162302) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description", default: ""
+    t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.string "internal_id", null: false
+    t.string "external_id", null: false
+    t.date "disbursement_date"
+    t.date "due_date"
+    t.integer "counterparty_type"
+    t.boolean "is_digitized", default: false
+    t.decimal "gross_amount", default: "0.0"
+    t.decimal "tax_rate", default: "0.0"
+    t.decimal "tax", default: "0.0"
+    t.integer "status", default: 0
+    t.text "description", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_invoices_on_external_id", unique: true
+    t.index ["internal_id"], name: "index_invoices_on_internal_id", unique: true
+  end
+
+  create_table "line_items", force: :cascade do |t|
+    t.integer "invoice_id"
+    t.integer "category_id"
+    t.decimal "quantity", default: "0.0"
+    t.decimal "unit_price", default: "0.0"
+    t.decimal "amount", default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
