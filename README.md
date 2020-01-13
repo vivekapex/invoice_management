@@ -4,7 +4,7 @@ Steps to get the app running on local system
 
 * Clone or download the repo in your local system
 
-* cd into the root directory of app
+* cd into the root directory of app i.e. cd invoice_management
 
 * run bundle install
 
