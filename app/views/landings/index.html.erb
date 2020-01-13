@@ -1,0 +1,29 @@
+<!-- <p id="notice"><%#= notice %></p> -->
+<div class='row'>
+  <div class='col-sm-12'>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+      <div class='row'>
+        <!-- column start -->
+        <div class='col'>
+          <div class="card text-white bg-info my-3 rounded-0 h-100" style="max-width: 18rem;">
+            <div class="card-body text-center">
+              <h5 class="card-title">External user:</h5>
+              <%= button_to "Continue", usertype_authentication_path, method: :post, params: {usertype: :external}, class: 'btn-sm btn btn btn-sm btn-outline-dark mt-4 rounded-0', form_class: 'form-inline mx-5 my-2 my-lg-0 justify-content-center' %>
+            </div>
+          </div>
+        </div>
+        <!-- column end -->
+        <!-- column start -->
+        <div class='col'>
+          <div class="card text-white bg-info my-3 rounded-0 h-100" style="max-width: 18rem;">
+            <div class="card-body text-center">
+              <h5 class="card-title">Internal user:</h5>
+              <%= button_to "Continue", usertype_authentication_path, method: :post, params: {usertype: :internal}, class: 'btn btn-sm btn-outline-dark mt-4 rounded-0', form_class: 'form-inline mx-5 my-2 my-lg-0 justify-content-center' %>
+            </div>
+          </div>
+        </div>
+        <!-- column end -->
+      </div>
+    </div>
+  </div>
+</div>

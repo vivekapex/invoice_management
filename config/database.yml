@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: invoice_management_development
+
+test:
+  <<: *default
+  database: invoice_management_test
+
+production:
+  <<: *default
+  database: invoice_management_production
+  username: invoice_management
+  password: <%= ENV['INVOICE_MANAGEMENT_DATABASE_PASSWORD'] %>
