@@ -1,24 +1,17 @@
-# README
+Steps to get the app running on local system
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Ruby version required: 2.6.3
 
-Things you may want to cover:
+* Clone or download the repo in your local system
 
-* Ruby version
+* cd into the root directory of app
 
-* System dependencies
+* run bundle install
 
-* Configuration
+* run rake db:setup
 
-* Database creation
+* fire rails s in terminal
 
-* Database initialization
+* visit localhost:3000
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* and that's it
