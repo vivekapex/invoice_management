@@ -1,47 +1,100 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-sm-12 mt-5">
+    <!-- external user action -->
+    <%- if external_user? -%>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="float-right mb-3">
+            <%= link_to new_invoice_path, class: 'btn btn-sm btn-outline-primary rounded-0' do %>
+              <span class="mr-1">Upload Invoice</span>
+              <i class="fas fa-upload"></i>
+            <%- end -%>
+          </div>
+        </div>
+      </div>
+    <%- end -%>
+    <!-- external user action -->
 
-<h1>Invoices</h1>
+    <!-- info container -->
+    <%- if notice -%>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="alert alert-info" id="notice"><%= notice %></p>
+        </div>
+      </div>
+    <%- end -%>
+    <!-- info container -->
 
-<table>
-  <thead>
-    <tr>
-      <th>Internal</th>
-      <th>External</th>
-      <th>Disbursement date</th>
-      <th>Due date</th>
-      <th>Description</th>
-      <th>Counterparty type</th>
-      <th>Is digitized</th>
-      <th>Gross amount</th>
-      <th>Tax rate</th>
-      <th>Tax</th>
-      <th>Status</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+    <!-- main content -->
+    <%- if @invoices.blank? -%>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="alert alert-info">No Invoices to show</div>
+        </div>
+      </div>
+    <%- else -%>
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="list-group">
+            <% @invoices.each do |invoice| %>
+              <li class='list-group-item'>
+                <div class="float-left">
+                  <i class="far fa-file-pdf mr-1"></i>
+                  <%= invoice.document&.filename %>
+                </div>
 
-  <tbody>
-    <% @invoices.each do |invoice| %>
-      <tr>
-        <td><%= invoice.internal_id %></td>
-        <td><%= invoice.external_id %></td>
-        <td><%= invoice.disbursement_date %></td>
-        <td><%= invoice.due_date %></td>
-        <td><%= invoice.description %></td>
-        <td><%= invoice.counterparty_type %></td>
-        <td><%= invoice.is_digitized %></td>
-        <td><%= invoice.gross_amount %></td>
-        <td><%= invoice.tax_rate %></td>
-        <td><%= invoice.tax %></td>
-        <td><%= invoice.status %></td>
-        <td><%= link_to 'Show', invoice %></td>
-        <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
-        <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+                <div class="float-right">
+                  <!-- action for external users -->
+                  <%- if external_user? -%>
+                    <%- if invoice.is_digitized -%>
+                      <span class="text-muted small">Digitized</span>
+                      <i class="fas fa-check text-success small"></i>
+                      <span class="mx-2">|</span>
 
-<br>
+                      <!-- if digitized then show -->
+                      <%= link_to invoice, class: "btn btn-sm btn-outline-success rounded-0" do %>
+                        <span class="mr-1">View</span>
+                        <i class="fas fa-eye"></i>
+                      <%- end -%>
+                      <!-- if digitized then show -->
+                    <%- else -%>
+                      <span class="text-muted small">Digitized</span>
+                      <i class="fas fa-times text-danger small"></i>
+                    <%- end -%>
+                  <%- end -%>
+                  <!-- action for external users -->
 
-<%= link_to 'New Invoice', new_invoice_path %>
+                  <!-- action for internal users -->
+                  <%- if internal_user? -%>
+                    <%- if invoice.is_digitized  -%>
+                      <span class="text-muted small">Digitized</span>
+                      <i class="fas fa-check text-success small"></i>
+                    <%- else -%>
+                      <!-- if not yet digitized -->
+                      <%= link_to mark_as_digitized_invoice_path(invoice), method: :post, class: "btn btn-sm btn-outline-success rounded-0" do %>
+                        <span class="mr-1">Mark Digitized</span>
+                        <i class="fas fa-check text-success"></i>
+                      <%- end -%>
+                      <!-- if not yet digitized -->
+                    <%- end -%>
+
+                    <span class="mx-2">|</span>
+
+                    <%= link_to invoice, class: "btn btn-sm btn-outline-success rounded-0" do %>
+                      <span class="mr-1">View</span>
+                      <i class="fas fa-eye"></i>
+                    <%- end -%>
+                  <%- end -%>
+                  <!-- action for internal users -->
+                </div>
+              </li>
+            <% end %>
+            <!-- loop end -->
+          </ul>
+        </div>
+      <%- end -%>
+      <!-- if condition -->
+    </div>
+    <!-- main content -->
+  </div>
+</div>

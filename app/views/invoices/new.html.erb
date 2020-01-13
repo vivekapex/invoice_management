@@ -1,5 +1,44 @@
-<h1>New Invoice</h1>
+<div class="row">
+  <div class="col-sm-12 mt-5">
+    <!-- back -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="mb-3">
+          <%= link_to invoices_path, class: 'btn btn-sm btn-outline-secondary rounded-0' do %>
+            <i class="fas fa-arrow-left"></i>
+            <span class="ml-1">Back</span>
+          <%- end -%>
+        </div>
+      </div>
+    </div>
+    <!-- back button -->
 
-<%= render 'form', invoice: @invoice %>
+    <!-- form content -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card rounded-0">
+          <div class="card-header bg-info text-white">Upload new Invoice</div>
+          <div class="card-body">
+            <%= simple_form_for @invoice, html: { class: 'my-3' } do |f| %>
+              <%= f.error_notification %>
+              <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-<%= link_to 'Back', invoices_path %>
+              <div class="input-group">
+                <div class="custom-file">
+                  <%= f.file_field :document, class: 'custom-file-input', accept: 'application/pdf' %>
+                  <%= f.label :document, 'Choose invoice', class: 'custom-file-label rounded-0' %>
+                </div>
+
+                <div class="input-group-append">
+                  <%= f.button :submit, class: 'btn btn-outline-success rounded-0' %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form content -->
+  </div>
+</div>
+

@@ -1,59 +1,96 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-sm-12 mt-5">
+    <div class="row">
+      <div class="col-sm-12">
+        <!-- back -->
+        <div class="float-left mb-3">
+          <%= link_to invoices_path, class: 'btn btn-sm btn-outline-secondary rounded-0' do %>
+            <i class="fas fa-arrow-left"></i>
+            <span class="ml-1">Back</span>
+          <%- end -%>
+        </div>
+        <!-- back -->
 
-<p>
-  <strong>Internal:</strong>
-  <%= @invoice.internal_id %>
-</p>
+        <!-- edit -->
+        <%- if internal_user? -%>
+          <div class="float-right mb-3">
+            <%= link_to edit_invoice_path(@invoice), class: 'btn btn-sm btn-outline-primary rounded-0' do %>
+              <span class="mr-1">Update Invoice</span>
+              <i class="fas fa-edit"></i>
+            <%- end -%>
+          </div>
+        <%- end -%>
+        <!-- edit -->
+      </div>
+    </div>
 
-<p>
-  <strong>External:</strong>
-  <%= @invoice.external_id %>
-</p>
+    <%- if notice -%>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="alert alert-info" id="notice"><%= notice %></p>
+        </div>
+      </div>
+    <%- end -%>
 
-<p>
-  <strong>Disbursement date:</strong>
-  <%= @invoice.disbursement_date %>
-</p>
-
-<p>
-  <strong>Due date:</strong>
-  <%= @invoice.due_date %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @invoice.description %>
-</p>
-
-<p>
-  <strong>Counterparty type:</strong>
-  <%= @invoice.counterparty_type %>
-</p>
-
-<p>
-  <strong>Is digitized:</strong>
-  <%= @invoice.is_digitized %>
-</p>
-
-<p>
-  <strong>Gross amount:</strong>
-  <%= @invoice.gross_amount %>
-</p>
-
-<p>
-  <strong>Tax rate:</strong>
-  <%= @invoice.tax_rate %>
-</p>
-
-<p>
-  <strong>Tax:</strong>
-  <%= @invoice.tax %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @invoice.status %>
-</p>
-
-<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
-<%= link_to 'Back', invoices_path %>
+    <!-- main content -->
+    <div class="row">
+      <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+        <table class="table table-hover table-bordered mb-5">
+          <thead>
+            <tr>
+              <th scope="col">Data point</th>
+              <th scope="col">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Internal Id:</td>
+              <td><%= @invoice.internal_id %></td>
+            </tr>
+            <tr>
+              <td>External Id:</td>
+              <td><%= @invoice.external_id %></td>
+            </tr>
+            <tr>
+              <td>Status:</td>
+              <td><%= @invoice.status&.titleize %></td>
+            </tr>
+            <tr>
+              <td>Is digitized:</td>
+              <td><%= "#{@invoice.is_digitized ? 'Yes' : 'No'}" %></td>
+            </tr>
+            <tr>
+              <td>Counterparty type:</td>
+              <td><%= @invoice.counterparty_type&.titleize %></td>
+            </tr>
+            <tr>
+              <td>Disbursement date:</td>
+              <td><%= @invoice.disbursement_date %></td>
+            </tr>
+            <tr>
+              <td>Due date:</td>
+              <td><%= @invoice.due_date %></td>
+            </tr>
+            <tr>
+              <td>Gross amount:</td>
+              <td><%= number_to_currency(@invoice.gross_amount, precision: 2) %></td>
+            </tr>
+            <tr>
+              <td>Tax rate:</td>
+              <td><%= number_to_percentage(@invoice.tax_rate, precision: 2) %></td>
+            </tr>
+            <tr>
+              <td>Tax:</td>
+              <td><%= number_to_currency(@invoice.tax, precision: 2) %></td>
+            </tr>
+            <tr>
+              <td>Description:</td>
+              <td><%= @invoice.description %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- main content -->
+  </div>
+</div>

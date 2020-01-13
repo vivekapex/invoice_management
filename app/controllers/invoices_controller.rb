@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   before_action :require_usertype
-  before_action :set_invoice, only: [:show, :edit, :update]
+  before_action :set_invoice, only: [:show, :edit, :update, :mark_as_digitized]
 
   # GET /invoices
   # GET /invoices.json
@@ -29,8 +29,8 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
-        format.json { render :show, status: :created, location: @invoice }
+        format.html { redirect_to invoices_path, notice: 'Invoice was successfully uploaded.' }
+        format.json { render :index, status: :created, location: invoices_path }
       else
         format.html { render :new }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
@@ -52,6 +52,15 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def mark_as_digitized
+    @invoice.update_column(:is_digitized, true)
+
+    respond_to do |format|
+      format.html { redirect_to invoices_path, notice: 'Invoice was successfully digitized.' }
+      format.json { render :index, status: :ok, location: invoices_path }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -61,7 +70,7 @@ class InvoicesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def invoice_params
-    params.require(:invoice).permit(:internal_id, :external_id, :disbursement_date, :due_date,
+    params.require(:invoice).permit(:document, :internal_id, :external_id, :disbursement_date, :due_date,
       :description, :counterparty_type, :is_digitized, :gross_amount, :tax_rate, :tax, :status,
       line_items_attributes: [:id, :category_id, :quantity, :unit_price, :amount, :_destroy])
   end
