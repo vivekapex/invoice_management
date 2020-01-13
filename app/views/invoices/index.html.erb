@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Invoices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Internal</th>
+      <th>External</th>
+      <th>Disbursement date</th>
+      <th>Due date</th>
+      <th>Description</th>
+      <th>Counterparty type</th>
+      <th>Is digitized</th>
+      <th>Gross amount</th>
+      <th>Tax rate</th>
+      <th>Tax</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invoices.each do |invoice| %>
+      <tr>
+        <td><%= invoice.internal_id %></td>
+        <td><%= invoice.external_id %></td>
+        <td><%= invoice.disbursement_date %></td>
+        <td><%= invoice.due_date %></td>
+        <td><%= invoice.description %></td>
+        <td><%= invoice.counterparty_type %></td>
+        <td><%= invoice.is_digitized %></td>
+        <td><%= invoice.gross_amount %></td>
+        <td><%= invoice.tax_rate %></td>
+        <td><%= invoice.tax %></td>
+        <td><%= invoice.status %></td>
+        <td><%= link_to 'Show', invoice %></td>
+        <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
+        <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Invoice', new_invoice_path %>

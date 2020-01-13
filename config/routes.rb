@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   post "/usertype_auth" => "landings#usertype_auth", as: :usertype_authentication
 
-  # resources :invoices, except: [ :delete ] do
-  #   resources :line_items, only: [ :index ]
-  # end
+  resources :invoices, except: [ :delete ] do
+    # resources :line_items, only: [ :index ]
+  end
 end
